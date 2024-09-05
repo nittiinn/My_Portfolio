@@ -1,45 +1,31 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const profileLogo = document.getElementById('profile-logo');
-    const profileDropdown = document.getElementById('profile-dropdown');
-    const toggle = document.querySelector('.toggle-input');
-    const navLinks = document.getElementById('nav-links');
-    const menuToggle = document.getElementById('menu-toggle');
-  
-    // Set initial state based on localStorage
-    const initialState = localStorage.getItem('toggleState') === 'true';
-    toggle.checked = initialState;
-    if (initialState) {
-      document.body.classList.add('night-mode');
-    } else {
-      document.body.classList.remove('night-mode');
-    }
-  
-    // Profile dropdown toggle
-    profileLogo.addEventListener('click', () => {
-      profileDropdown.style.display = profileDropdown.style.display === 'block' ? 'none' : 'block';
+    const profileIcon = document.getElementById('profileIcon');
+    const profileMenu = document.getElementById('profileMenu');
+    const themeSwitch = document.getElementById('themeSwitch');
+    const hamburger = document.querySelector('.hamburger');
+    const menubar = document.querySelector('.menubar');
+
+    // Toggle profile menu
+    profileIcon.addEventListener('click', (event) => {
+        event.stopPropagation();
+        profileMenu.style.display = profileMenu.style.display === 'block' ? 'none' : 'block';
     });
-  
-    // Menu toggle
-    menuToggle.addEventListener('click', () => {
-      navLinks.classList.toggle('show');
-    });
-  
-    // Hide dropdown when clicking outside
+
+    // Close profile menu if clicked outside
     document.addEventListener('click', (event) => {
-      if (!profileLogo.contains(event.target) && !profileDropdown.contains(event.target)) {
-        profileDropdown.style.display = 'none';
-      }
+        if (!profileMenu.contains(event.target) && event.target !== profileIcon) {
+            profileMenu.style.display = 'none';
+        }
     });
-  
-    // Handle theme toggle
-    toggle.addEventListener('change', () => {
-      const isNightMode = toggle.checked;
-      if (isNightMode) {
-        document.body.classList.add('night-mode');
-      } else {
-        document.body.classList.remove('night-mode');
-      }
-      localStorage.setItem('toggleState', toggle.checked);
+
+    // Toggle dark/light mode
+    themeSwitch.addEventListener('change', () => {
+        document.body.classList.toggle('dark-mode');
     });
-  });
-  
+
+    // Toggle Hamburger Menu
+    hamburger.addEventListener('click', () => {
+        menubar.classList.toggle('active');  // Toggles the 'active' class
+        hamburger.classList.toggle('hamburger-active');  // Toggle animation for hamburger icon
+    });
+});
