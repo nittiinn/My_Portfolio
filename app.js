@@ -25,7 +25,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Toggle Hamburger Menu
     hamburger.addEventListener('click', () => {
-        menubar.classList.toggle('active');  // Toggles the 'active' class
+        menubar.classList.toggle('active');  
         hamburger.classList.toggle('hamburger-active');  // Toggle animation for hamburger icon
     });
 });
+
+
+const words = ["Developer", "Web Designer", "Coder"];
+const colors = ["#FF5733", "#33C1FF", "#28A745"]; 
+let currentIndex = 0;
+
+function startSlideshow() {
+    const slideshowElement = document.getElementById("slideshow");
+    const slideElement = document.createElement("div");
+    slideElement.className = "slide";
+    slideElement.innerText = words[currentIndex];  // Set initial word
+    slideElement.style.color = colors[currentIndex];  // Set initial color
+    slideshowElement.appendChild(slideElement);
+
+    setInterval(() => {
+        // Slide the current word out
+        slideElement.style.transform = 'translateY(100%)';
+        
+        setTimeout(() => {
+            currentIndex = (currentIndex + 1) % words.length;
+            slideElement.innerText = words[currentIndex];
+            slideElement.style.color = colors[currentIndex];  
+            slideElement.style.transform = 'translateY(-100%)';  
+            
+            
+            setTimeout(() => {
+                slideElement.style.transform = 'translateY(0)'; 
+            }, 50);
+        }, 500); 
+    }, 3000);  
+}
+
+document.addEventListener("DOMContentLoaded", startSlideshow);
