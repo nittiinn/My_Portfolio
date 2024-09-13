@@ -8,6 +8,7 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+
 body {
   min-height: 100vh; 
   margin: 0;
@@ -17,7 +18,126 @@ body {
   flex-direction: column;
     font-family: 'Roboto', sans-serif;
   transition: background-color 0.3s, color 0.3s;
+  overflow-x: hidden;
 }
+
+/* Make sure the stars background covers the entire viewport */
+.stars {
+  position: fixed; /* Fixed position to cover the entire viewport */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('stars.png') repeat;
+  z-index: -1; /* Ensure stars are behind all other content */
+}
+
+/* Animation for shooting stars */
+@keyframes shoot {
+  0% {
+    transform: translateX(-100%) translateY(-100%) rotate(-45deg);
+  }
+  100% {
+    transform: translateX(100vw) translateY(100vh) rotate(-45deg);
+  }
+}
+
+/* Twinkling stars animation */
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: white;
+  border-radius: 50%;
+  animation: twinkle 1.5s infinite;
+}
+
+.star:nth-child(odd) {
+  animation-duration: 2s;
+}
+
+.star:nth-child(even) {
+  animation-duration: 1s;
+}
+
+.smoke {
+  position: fixed;
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle, rgba(255, 215, 0, 0.7) 0%, rgba(255, 215, 0, 0) 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0.7;
+  transform: scale(0);
+  animation: puff 0.5s forwards;
+}
+
+@keyframes puff {
+  from {
+      transform: scale(0);
+      opacity: 1;
+  }
+  to {
+      transform: scale(1);
+      opacity: 0;
+  }
+}
+
+/* Intro Animation Overlay */
+.intro-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000; /* Dark background */
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  animation: fadeOut 4s ease forwards; /* Animation duration */
+}
+
+/* Animation content inside overlay */
+.animation-content {
+  text-align: center;
+  animation: zoomIn 2s ease forwards;
+}
+
+/* Animation: Text zooms in */
+@keyframes zoomIn {
+  0% {
+      transform: scale(0);
+  }
+  100% {
+      transform: scale(1);
+  }
+}
+
+/* Fade out effect for the overlay */
+@keyframes fadeOut {
+  0% {
+      opacity: 1;
+  }
+  90% {
+      opacity: 0.5;
+  }
+  100% {
+      opacity: 0;
+      visibility: hidden;
+  }
+}
+
 
 nav {
   position: fixed;
@@ -32,28 +152,27 @@ nav {
   z-index: 1000; 
 }
 
-nav  h1 {
-  font-family: 'Creepster', cursive;
+nav h1 {
+  font-family: 'Georgia', serif; /* Classic serif font */
   font-size: 2.5rem; 
-  background: -webkit-linear-gradient(90deg, #4458dc 0%, #854fee 100%);
-  /* background: linear-gradient(to right, #b927fc 0%, #2c64fc 100%); */
-  -webkit-background-clip: text;
+  background: linear-gradient(90deg, #6a5acd 0%, #8a2be2 100%); /* Classic gradient */
   background-clip: text;
-  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  color: transparent; 
+  transition: background 0.3s ease;
 }
 
-nav  h1:hover{
-  background: linear-gradient(to right,#fcc52c  0%, #d6ba56 100%);
-  -webkit-background-clip: text;
+nav h1:hover {
+  background: linear-gradient(to right, #ff6347 0%, #ff4500 100%); /* Classic warm gradient */
   background-clip: text;
-  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  color: transparent;
 }
 
 nav ul {
   list-style: none;
   display: flex;
   font-size: 20px;
-   font-family: 'Anonymous Pro', monospace; 
 }
 
 nav ul li {
@@ -202,7 +321,7 @@ nav ul li a:hover {
     left: 0;
     font-size: 1.5rem;
     width: 100%;
-    height: 50%; /* Adjust the height to make it "half content" */
+    height: 50%; 
     background-color: rgba(255, 255, 255, 0.95); /* Semi-transparent background */
     transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out;
     opacity: 0;  /* Start with opacity 0 */
@@ -222,28 +341,60 @@ nav ul li a:hover {
 .menubar ul {
   padding: 0;
   list-style: none;
+  margin: 0; /* Remove default margin */
 }
 
 .menubar ul li {
-  margin-bottom: 32px;
+  margin-bottom: 0; /* Remove bottom margin for full-width effect */
 }
 
 .menubar ul li a {
+  display: block; /* Make the anchor tag fill the width of the list item */
   text-decoration: none;
   color: #000;
   font-size: 95%;
   font-weight: 400;
-  padding: 5px 10px;
+  padding: 10px 20px; /* Adjust padding to your preference */
   border-radius: 5px;
-  font-family: 'Roboto Mono', monospace;
+  position: relative; /* Position relative for the pseudo-element */
+  transition: background-color 0.3s, box-shadow 0.3s; /* Smooth transitions */
+}
 
+.menubar ul li a::after {
+  content: ""; 
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px; 
+  background-color: #000; 
+  transform: scaleX(0); 
+  transform-origin: bottom right; 
+  transition: transform 0.3s ease;
+}
+
+.menubar ul li a:hover::after {
+  transform: scaleX(1); 
+  transform-origin: bottom left; 
 }
 
 .menubar ul li a:hover {
-  background-color: #a5ebca;
-  box-shadow: 1 1 3 green;
+  background-color: #9c9c9c;
+  box-shadow: 0 1px 3px green;
 }
 
+.main_intro {
+  margin: 0; 
+  padding: 0;
+  font-size: 1.5rem; 
+  line-height: 1.4;
+  display: flex; 
+  align-items: center; 
+}
+
+.main_intro span {
+  margin-left: 0.5rem; /* Space between the text and the span */
+}
 @media screen and (max-width: 790px) {
   .hamburger {
     display: block;
@@ -434,28 +585,29 @@ nav ul li a:hover {
   display: inline-block;
   overflow: hidden;
   font-weight: bold;
-  font-size: 24px; /* Adjust font size if needed */
+  font-size: 24px; 
   transition: opacity 0.5s ease-in-out; /* Smooth transition */
 }
 
 .description {
-  margin-top: 20px; /* Add margin to separate from previous content */
-  font-size: 18px; /* Adjust font size as needed */
+  margin-top: 20px;
+  font-size: 18px; 
 }
 
 .mt-5 {
-  margin-top: 30px; /* Move buttons down */
+  margin-top: 30px; 
 }
+
 
 /* Media Queries for Mobile */
 @media screen and (max-width: 768px) {
   .home_section {
-    flex-direction: column; /* Stack sections vertically */
+    flex-direction: column; 
     align-items: center; /* Center align content */
   }
 
   .col-lg-6 {
-    margin-bottom: 22px; /* Add bottom margin to create space between sections */
+    margin-bottom: 22px; 
   }
 
   .profile_photo {
