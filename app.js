@@ -5,6 +5,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const hamburger = document.querySelector('.hamburger');
     const menubar = document.querySelector('.menubar');
 
+    window.addEventListener('load', () => {
+        const introOverlay = document.getElementById('introOverlay');
+        
+        // Remove the overlay after the animation completes
+        setTimeout(() => {
+            introOverlay.style.display = 'none';
+        }, 4000); // Matches the duration of the fadeOut animation (4s)
+    });    
     // Toggle profile menu
     profileIcon.addEventListener('click', (event) => {
         event.stopPropagation();
@@ -21,6 +29,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Toggle dark/light mode
     themeSwitch.addEventListener('change', () => {
         document.body.classList.toggle('dark-mode');
+    });
+
+  // Close the menu when clicking outside of it or on a menu item
+    menubar.addEventListener('click', () => {
+        menubar.classList.remove('active');
+        hamburger.classList.remove('hamburger-active');
     });
 
     // Toggle Hamburger Menu
@@ -60,5 +74,40 @@ function startSlideshow() {
         }, 500); 
     }, 3000);  
 }
-
 document.addEventListener("DOMContentLoaded", startSlideshow);
+
+
+// Function to create the smoke effect
+document.addEventListener('mousemove', (e) => {
+    const snitch = document.querySelector('.snitch');
+    snitch.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+    
+    // Create the smoke effect
+    const smoke = document.createElement('div');
+    smoke.className = 'smoke';
+    smoke.style.left = `${e.clientX - 50}px`; // Adjust to center the smoke effect
+    smoke.style.top = `${e.clientY - 50}px`;
+    document.body.appendChild(smoke);
+
+    // Remove smoke after animation
+    setTimeout(() => {
+        smoke.remove();
+    }, 500); // Match with the CSS animation duration
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const numStars = 100;
+    const starsContainer = document.querySelector('.stars');
+
+    for (let i = 0; i < numStars; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        star.style.top = `${Math.random() * 100}vh`;
+        star.style.left = `${Math.random() * 100}vw`;
+        star.style.opacity = Math.random();
+        starsContainer.appendChild(star);
+    }
+});
+
+
+
