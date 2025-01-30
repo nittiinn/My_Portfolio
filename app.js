@@ -1,4 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Set the initial theme to dark mode
+    document.body.classList.add('dark-mode');
+    
     const profileIcon = document.getElementById('profileIcon');
     const profileMenu = document.getElementById('profileMenu');
     const themeSwitch = document.getElementById('themeSwitch');
@@ -13,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
             introOverlay.style.display = 'none';
         }, 4000); // Matches the duration of the fadeOut animation (4s)
     });    
+
     // Toggle profile menu
     profileIcon.addEventListener('click', (event) => {
         event.stopPropagation();
@@ -31,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.classList.toggle('dark-mode');
     });
 
-  // Close the menu when clicking outside of it or on a menu item
+    // Close the menu when clicking outside of it or on a menu item
     menubar.addEventListener('click', () => {
         menubar.classList.remove('active');
         hamburger.classList.remove('hamburger-active');
@@ -43,6 +47,8 @@ document.addEventListener('DOMContentLoaded', () => {
         hamburger.classList.toggle('hamburger-active');  // Toggle animation for hamburger icon
     });
 });
+
+
 
 
 const words = ["Developer", "Web Designer", "Coder"];
